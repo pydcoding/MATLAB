@@ -7,8 +7,8 @@ SUBIDIVISION_NO_H = 20;
 projectdir_us = 'D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\images\';
 projectdir_gt = 'D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\ground_truth\';
 
-us_files = dir( fullfile(projectdir_us, '*.png') );
-gt_files = dir( fullfile(projectdir_gt, '*.png') );
+us_files = dir(fullfile(projectdir_us, '*.png'));
+gt_files = dir(fullfile(projectdir_gt, '*.png'));
 
 nFiles_us = length(us_files);
 nFiles_gt = length(gt_files);
@@ -30,7 +30,7 @@ for i = 1:nFiles_us
     result_vector = NaN(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
     cont = 1;
     for i = 1:h
-        for j = 1: w
+        for j = 1:w
             % Store the index of the matrix.
             x{1} = us_resized_image(i, j)
 
