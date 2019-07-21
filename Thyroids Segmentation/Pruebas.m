@@ -28,9 +28,10 @@ for i = 1:nFiles_us
     h = IMG_HEIGHT / SUBIDIVISION_NO_H;
 
     result_vector = cell(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
-    cont = 1;
-    for i = 1:h
-        for j = 1:w
+    offset_h = 0;
+    offset_w = 0;
+    for i = ((offset_h * SUBDIVISION_NO_H) + 1):(((offset_h * SUBDIVISION_NO_H) + 1) + SUBDIVISION_NO_H)
+        for j = ((offset_h * SUBDIVISION_NO_W) + 1):(((offset_h * SUBDIVISION_NO_W) + 1) + SUBDIVISION_NO_W)
             % Store the index of the matrix.
             x{1} = us_resized_image(i, j);
 
@@ -38,12 +39,13 @@ for i = 1:nFiles_us
             x{2} = us_resized_image(1:w, 1:h)
 
             % Store whether if it's thyroid or not.
-            %x{3} = mean(us_resized_image) > 0.6
+            x{3} = mean(us_resized_image(1:w, 1:h)) > 0.6
 
             result_vector(cont) = x;
-            
-            cont = cont + 1;
-        end
-    end
 
+            offset_w = offset_w + 1;
+        end
+        
+        offset_h = offset_h + 1;
+    end
 end
