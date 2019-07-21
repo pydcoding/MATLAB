@@ -31,19 +31,13 @@ for i = 1:nFiles_us
     cont = 1;
     for i = 1:h
         for j = 1:w
-            
             % Store the index of the matrix.
-
             x{1} = us_resized_image(i, j);
-
             % Store the matrix.
-            x{2} = us_resized_image(w:h)
-
+            x{2} = us_resized_image(1:w, 1:h)
             % Store whether if it's thyroid or not.
             %x{3} = mean(us_resized_image) > 0.6
-
             result_vector(cont) = x;
-
             cont = cont + 1;
         end
     end
