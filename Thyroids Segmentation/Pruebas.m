@@ -27,22 +27,24 @@ for i = 1:nFiles_us
     w = IMG_WIDTH / SUBDIVISION_NO_W;
     h = IMG_HEIGHT / SUBIDIVISION_NO_H;
 
-    result_vector = NaN(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
+    result_vector = cell(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
     cont = 1;
     for i = 1:h
         for j = 1:w
+            
             % Store the index of the matrix.
-            x{1} = us_resized_image(i, j)
+
+            x{1} = us_resized_image(i, j);
 
             % Store the matrix.
-            %x{2} = us_resized_image(w:h)
+            x{2} = us_resized_image(w:h)
 
             % Store whether if it's thyroid or not.
             %x{3} = mean(us_resized_image) > 0.6
 
-            result_vector(cont) = x
+            result_vector(cont) = x;
 
-            cont = cont + 1
+            cont = cont + 1;
         end
     end
 
