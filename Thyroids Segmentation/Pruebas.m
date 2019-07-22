@@ -13,10 +13,12 @@ gt_files = dir(fullfile(projectdir_gt, '*.png'));
 nFiles_us = length(us_files);
 nFiles_gt = length(gt_files);
 
-for i = 1:nFiles_us
+file_result_vector = cell(nFiles_us, 1);
+
+for z = 1:nFiles_us
     
-    current_us_File = fullfile(projectdir_us, us_files(i).name);
-    current_gt_File = fullfile(projectdir_gt, gt_files(i).name);
+    current_us_File = fullfile(projectdir_us, us_files(z).name);
+    current_gt_File = fullfile(projectdir_gt, gt_files(z).name);
    
     us_image = imread(current_us_File);
     gt_image = imread(current_gt_File);
@@ -28,10 +30,12 @@ for i = 1:nFiles_us
     h = IMG_HEIGHT / SUBIDIVISION_NO_H;
 
     result_vector = cell(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
+  
+    cont = 1; 
     
-    cont = 1;    
-    for i = 1:(IMG_WIDTH - w):w;
-        for j = 1:(IMG_HEIGHT - h):h;
+    for i = 1:w:(IMG_WIDTH - w); 
+        for j = 1:h:(IMG_HEIGHT - h);
+            
             % Store the index of the matrix.
             x{1} = us_resized_image(i, j);
 
@@ -43,7 +47,8 @@ for i = 1:nFiles_us
 
             result_vector{cont} = x;
 
-            cont = cont + 1
+            cont = cont + 1;
         end
     end
+    file_result_vector{z} = result_vector;
 end
