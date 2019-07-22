@@ -29,28 +29,21 @@ for i = 1:nFiles_us
 
     result_vector = cell(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
     
-    cont = 1;
-    %offset_h = 0;
-    %offset_w = 0;
-    
-      for offset_w = 1:(IMG_WIDTH - w);
-        for offset_h = 1:(IMG_HEIGHT - h);
-            for i = (1 * offset_w):((1 * offset_w) + w);
-                for j = (1 * offset_h):((1 * offset_h) + h);
-                    % Store the index of the matrix.
-                    x{1} = us_resized_image(i, j);
+    cont = 1;    
+    for i = 1:(IMG_WIDTH - w):w;
+        for j = 1:(IMG_HEIGHT - h):h;
+            % Store the index of the matrix.
+            x{1} = us_resized_image(i, j);
 
-                    % Store the matrix.
-                    x{2} = us_resized_image(1:w, 1:h);
+            % Store the matrix.
+            x{2} = us_resized_image(i:i+w, j:j+h);
 
-                    % Store whether if it's thyroid or not.
-                    x{3} = mean(us_resized_image(1:w, 1:h)) > 0.6;
+            % Store whether if it's thyroid or not.
+            x{3} = mean(us_resized_image(1:w, 1:h)) > 0.6;
 
-                    result_vector{cont} = x;
+            result_vector{cont} = x;
 
-                    offset_w = offset_w + 1;
-                end
-           end
+            cont = cont + 1
         end
     end
 end
