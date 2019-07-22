@@ -28,24 +28,29 @@ for i = 1:nFiles_us
     h = IMG_HEIGHT / SUBIDIVISION_NO_H;
 
     result_vector = cell(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
-    offset_h = 0;
-    offset_w = 0;
-    for i = ((offset_h * SUBDIVISION_NO_H) + 1):(((offset_h * SUBDIVISION_NO_H) + 1) + SUBDIVISION_NO_H)
-        for j = ((offset_h * SUBDIVISION_NO_W) + 1):(((offset_h * SUBDIVISION_NO_W) + 1) + SUBDIVISION_NO_W)
-            % Store the index of the matrix.
-            x{1} = us_resized_image(i, j);
+    
+    cont = 1;
+    %offset_h = 0;
+    %offset_w = 0;
+    
+      for offset_w = 1:(IMG_WIDTH - w);
+        for offset_h = 1:(IMG_HEIGHT - h);
+            for i = (1 * offset_w):((1 * offset_w) + w);
+                for j = (1 * offset_h):((1 * offset_h) + h);
+                    % Store the index of the matrix.
+                    x{1} = us_resized_image(i, j);
 
-            % Store the matrix.
-            x{2} = us_resized_image(1:w, 1:h)
+                    % Store the matrix.
+                    x{2} = us_resized_image(1:w, 1:h);
 
-            % Store whether if it's thyroid or not.
-            x{3} = mean(us_resized_image(1:w, 1:h)) > 0.6
+                    % Store whether if it's thyroid or not.
+                    x{3} = mean(us_resized_image(1:w, 1:h)) > 0.6;
 
-            result_vector(cont) = x;
+                    result_vector{cont} = x;
 
-            offset_w = offset_w + 1;
+                    offset_w = offset_w + 1;
+                end
+           end
         end
-        
-        offset_h = offset_h + 1;
     end
 end
