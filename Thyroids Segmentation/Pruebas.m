@@ -39,7 +39,7 @@ for i = 1:nFiles_us
             x{2} = us_resized_image(i:i+w, j:j+h);
 
             % Store whether if it's thyroid or not.
-            x{3} = mean(us_resized_image(1:w, 1:h)) > 0.6;
+            x{3} = mean(us_resized_image(i:i+w, j:j+h)) > 0.6;
 
             result_vector{cont} = x;
 
