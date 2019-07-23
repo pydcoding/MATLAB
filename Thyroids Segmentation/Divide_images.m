@@ -1,45 +1,55 @@
-files = dir('D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\ground_truth\*.png') ; 
-addpath ( 'D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\ground_truth\')
-addpath ( 'D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\images\')
+IMG_WIDTH  = 500;
+IMG_HEIGHT = 600;
 
-projectdir = 'D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\ground_truth\';
-exist(fullfile('D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\ground_truth\','image02.png'),'file')
-IMG_WIDTH  = 500
-IMG_HEIGHT = 600
+SUBDIVISION_NO_W  = 25;
+SUBIDIVISION_NO_H = 30;
 
+projectdir_us = 'D:\Thyroid_Segmentation_Papers\Images\subject 8\GE_Logiq_E9\images\';
+projectdir_gt = 'D:\Thyroid_Segmentation_Papers\Images\subject 8\GE_Logiq_E9\ground_truth\';
 
-SUBDIVISION_NO_W  = 20
-SUBIDIVISION_NO_H = 20
+us_files = dir(fullfile(projectdir_us, '*.png'));
+gt_files = dir(fullfile(projectdir_gt, '*.png'));
 
-% Iterate over the files
-for i = 1:length(files)
-	thisfile = files(i).name;
-end
+nFiles_us = length(us_files);
+nFiles_gt = length(gt_files);
 
-us_image = imread('D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\ground_truth\image02.png')
-gt_image = imread('D:\Thyroid_Segmentation_Papers\Images\subject_8\GE_Logiq_E9\images\image02_gt.png')
+file_result_vector = cell(nFiles_us, 1);
+%Going through the images of the file
+for z = 1:nFiles_us 
+    
+    current_us_File = fullfile(projectdir_us, us_files(z).name);
+    current_gt_File = fullfile(projectdir_gt, gt_files(z).name);
+   
+    us_image = imread(current_us_File);
+    gt_image = imread(current_gt_File);
+    
+    %Convert image of 541x451 into 600x500
+    us_resized_image = padarray(us_image, [45 32], 0, 'post'); 
+    gt_resized_image = padarray(gt_image, [45 32], 0, 'post');
+    
+    w = IMG_WIDTH / SUBDIVISION_NO_W;
+    h = IMG_HEIGHT / SUBIDIVISION_NO_H;
 
-us_resized_image = padarray(us_image, [45 32], 0, 'post')
-gt_resized_image = padarray(gt_image, [45 32], 0, 'post')
+    result_vector = cell(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1);
+  
+    cont = 1; 
+    % Iterate over the image in 'w' and 'h' steps
+    for i = 1:w:(IMG_WIDTH - w); 
+        for j = 1:h:(IMG_HEIGHT - h);
+            
+            % Store the index of the matrix.
+            x{1} = [i, j];
 
-w = IMG_WIDTH / SUBDIVISION_NO_W
-h = IMG_HEIGHT / SUBIDIVISION_NO_H
+            % Store the matrix.
+            x{2} = us_resized_image(i:i+w, j:j+h);
 
-result_vector = NaN(SUBDIVISION_NO_W * SUBIDIVISION_NO_H, 1)
-cont = 1
-for i = 1 to i <= h:
-	for j = 1 to j <= w:
-		% Store the index of the matrix.
-		x{1} = us_resized_image(i, j)
+            % Store whether it's thyroid or not.
+            x{3} = mean(reshape(us_resized_image(i:i+w, j:j+h)',[],1)) > 0.6;
 
-		% Store the matrix.
-		x{2} = us_resized_image(w:h)
+            result_vector{cont} = x;
 
-		% Store whether if it's thyroid or not.
-		x{3} = mean(us_resized_image) > 0.6
-
-		result_vector(cont) = x
-
-		cont = cont + 1
+            cont = cont + 1;
+        end
     end
+    file_result_vector{z} = result_vector;
 end
