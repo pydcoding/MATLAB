@@ -1,4 +1,5 @@
 function entropy_vector = entropy(glcms);
+
 for z = 1:length(glcms);
 entropy_sum = 0;
     for i = 1:length(glcms);
@@ -7,7 +8,7 @@ entropy_sum = 0;
             entropy_sum = entropy_sum + (-log(current_matrix(i,j))*current_matrix(i,j));
         end
      end
-     entropy_vector(z) = z + entropy_sum;
+     entropy_vector(z) = entropy_sum;
 end
-entropy_vector
+
 end

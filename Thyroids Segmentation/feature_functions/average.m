@@ -8,6 +8,6 @@ function mu_vector = average(glcms);
                 mu = mu + (i*current_matrix(i,j));
             end
         end
-        mu_vector(z) = z + mu;
+        mu_vector(z) =  mu;
     end
 end

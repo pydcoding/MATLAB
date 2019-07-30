@@ -8,6 +8,6 @@ function  var_vector = var(glcms, mu_vector);
                 var = var + (current_matrix(i,j)*(i - mu_vector(z))^2);
             end
         end
-        var_vector(z) = z + var;
+        var_vector(z) = var;
     end
 end
