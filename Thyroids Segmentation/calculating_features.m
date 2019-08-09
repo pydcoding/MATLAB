@@ -1,4 +1,4 @@
-tic; %how many time takes
+ tic; %how many time takes
 offsets = [0 1; -1 1;-1 0;-1 -1; 0 -1 ; 1 -1; 1 0 ;1 1];%define how many offsets we use
 
 for k = 1:length(file_result_vector);
